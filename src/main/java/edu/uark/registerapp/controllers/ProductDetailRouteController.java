@@ -65,9 +65,6 @@ public class ProductDetailRouteController extends BaseRouteController {
 			this.getCurrentUser(request);
 		if (!activeUserEntity.isPresent()) {
 			return this.buildInvalidSessionResponse();
-		} else if (!this.isElevatedUser(activeUserEntity.get())) {
-			return this.buildNoPermissionsResponse(
-				ViewNames.PRODUCT_LISTING.getRoute());
 		}
 
 		final ModelAndView modelAndView =
