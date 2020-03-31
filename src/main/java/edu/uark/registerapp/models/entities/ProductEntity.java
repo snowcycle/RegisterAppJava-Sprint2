@@ -52,6 +52,18 @@ public class ProductEntity {
 		return this;
 	}
 
+    @Column(name="price")
+    private long price;
+
+	public long getPrice() {
+		return this.price;
+	}
+
+	public ProductEntity setPrice(final long price) {
+		this.price = price;
+		return this;
+	}
+
 	@Column(name = "createdon", insertable = false, updatable = false)
 	@Generated(GenerationTime.INSERT)
 	private LocalDateTime createdOn;
@@ -72,18 +84,21 @@ public class ProductEntity {
 
 	public ProductEntity() {
 		this.count = -1;
+		this.price = 0L;
 		this.id = new UUID(0, 0);
 		this.lookupCode = StringUtils.EMPTY;
 	}
 
-	public ProductEntity(final String lookupCode, final int count) {
+	public ProductEntity(final String lookupCode, final int count, final long price) {
 		this.count = count;
+		this.price = price;
 		this.id = new UUID(0, 0);
 		this.lookupCode = lookupCode;
 	}
 
 	public ProductEntity(final Product apiProduct) {
-    	this.id = new UUID(0, 0);
+		this.price = 0L; // TODO: Add price to Product.java and allow for edits via the productDetail view
+		this.id = new UUID(0, 0);
 		this.count = apiProduct.getCount();
 		this.lookupCode = apiProduct.getLookupCode();
 	}
