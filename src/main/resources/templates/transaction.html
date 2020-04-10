@@ -1,0 +1,51 @@
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head>
+	<title>Register - Transaction</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link rel="stylesheet" type="text/css" href="/styles/master.css">
+
+	<script type="text/javascript" src="/scripts/master.js" defer></script>
+	<script type="text/javascript" src="/scripts/transaction.js" defer></script>
+</head>
+
+<body>
+	<div class="header">
+		<h1 class="primary-message">Transaction</h1>
+    <input type="text" placeholder="Search.." name="search">
+      <button id = "productSearch" type="submit" class = "action">Submit</button>
+	</div>
+
+	<div id="main" class="main">
+		<div id="error" th:class="${#strings.isEmpty(errorMessage)} ? hidden : ''">
+			<h4 id="errorMessage" class="error-message" th:text="${errorMessage}"></h4>
+		</div>
+
+    <ul id="productsListing" class="products">
+      <li th:each="product : ${products}">
+        <input type="hidden" name="productId" th:value="${product.id}" />
+        <span class="productLookupCodeDisplay" th:text="${product.lookupCode}">lookupCode</span>
+        <br />&nbsp;&nbsp;<span class="productCountDisplay" th:text="${product.count}">0</span>
+        <br />&nbsp;&nbsp;<span class="productCreatedOnDisplay" th:text="${product.createdOn}">12/31/1999</span>
+				<br />
+				<input type="number" id="quantity" name="quantity" min="1" max="5">
+				<button id="addButton" type="button" class="action">Add</button>
+
+      </li>
+    </ul>
+
+		<div class="transactionActionWrapper">
+			<div th:class="not ${isElevatedUser} ? hidden : ''">
+				<a href="/transactionSummary/" class="button">Finish Transaction</a>
+			</div>
+
+			<br /><br />
+
+		</div>
+
+	</div>
+
+</body>
+
+</html>
