@@ -39,7 +39,21 @@ public class ProductEntity {
 		this.lookupCode = lookupCode;
 		return this;
 	}
+// ----------------------------------------------------------------
+// This is setting up cost, just like how it was set up for count
+  @Column(name="cost")
+    private float cost;
 
+	public float getCost() {
+		return this.cost;
+	}
+
+	public ProductEntity setCost(final float cost) {
+		this.cost = cost;
+		return this;
+	}
+	
+//----------------------------------------------------------------	
 	@Column(name = "count")
 	private int count;
 
@@ -52,6 +66,8 @@ public class ProductEntity {
 		return this;
 	}
 
+  
+
 	@Column(name = "createdon", insertable = false, updatable = false)
 	@Generated(GenerationTime.INSERT)
 	private LocalDateTime createdOn;
@@ -63,7 +79,8 @@ public class ProductEntity {
 	public Product synchronize(final Product apiProduct) {
 		this.setCount(apiProduct.getCount());
 		this.setLookupCode(apiProduct.getLookupCode());
-
+		this.setCost(apiProduct.getCost());
+		
 		apiProduct.setId(this.getId());
 		apiProduct.setCreatedOn(this.getCreatedOn());
 
@@ -72,19 +89,31 @@ public class ProductEntity {
 
 	public ProductEntity() {
 		this.count = -1;
+		this.cost = 0;
 		this.id = new UUID(0, 0);
 		this.lookupCode = StringUtils.EMPTY;
 	}
-
-	public ProductEntity(final String lookupCode, final int count) {
+// -----------------------------------------------------------------------------------------
+// This is the part that I changed  (Floyd Brown, 11/22/20)
+// Within the parameter, I have included cost, and we are basically setting it up 
+// The same way that count was initially set up in this file 
+	public ProductEntity(final String lookupCode, final int count, final float cost) {
+//---------------------------------------------------------------------------
+// This is where we setup cost
+		this.cost = cost;
+//---------------------------------------------------------------------------
 		this.count = count;
 		this.id = new UUID(0, 0);
 		this.lookupCode = lookupCode;
 	}
 
 	public ProductEntity(final Product apiProduct) {
-    	this.id = new UUID(0, 0);
+		this.id = new UUID(0, 0);
 		this.count = apiProduct.getCount();
+//---------------------------------------------------------------------------------------
+		this.cost = apiProduct.getCost(); 
+// Here we are basically setting up cost the same way that count was set up
+//----------------------------------------------------------------------------------------	
 		this.lookupCode = apiProduct.getLookupCode();
 	}
 }
