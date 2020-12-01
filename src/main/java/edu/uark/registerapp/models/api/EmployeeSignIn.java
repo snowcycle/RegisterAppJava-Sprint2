@@ -11,6 +11,10 @@ public class EmployeeSignIn {
 		this.employeeId = employeeId;
 		return this;
 	}
+	
+	public EmployeSignIn getEmployeeId(){
+		return this.employeeId;
+	}
 
 	private String password;
 	public String getPassword() {
