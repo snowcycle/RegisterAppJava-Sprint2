@@ -57,6 +57,14 @@ public class Product extends ApiResponse {
 		return this;
 	}
 
+//-----------------------------------------------------------------------
+// Jacob Dedman
+// Function to change product count by num
+	public Product changeCount(final int num) {
+		this.count = this.count + num;
+		return this;
+	}
+//-----------------------------------------------------------------------
 
 
 	private String createdOn;

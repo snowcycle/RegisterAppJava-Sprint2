@@ -22,6 +22,8 @@ public class ProductUpdateCommand implements ResultCommandInterface<Product> {
 	public Product execute() {
 		this.validateProperties();
 
+		this.updateProductEntity();
+
 		final Optional<ProductEntity> productEntity =
 			this.productRepository.findById(this.productId);
 		if (!productEntity.isPresent()) { // No record with the associated record ID exists in the database.
@@ -43,6 +45,25 @@ public class ProductUpdateCommand implements ResultCommandInterface<Product> {
 			throw new UnprocessableEntityException("lookupcode");
 		}
 	}
+
+	//----------------------------------------------------------------------------
+	//Jacob Dedman
+	//Update product entity for database update
+	@Transactional
+	private void updateProductEntity() {
+		final Optional<ProductEntity> queriedProductEntity =
+			this.productRepository.findById(this.productId);
+
+		if (!queriedProductEntity.isPresent()) {
+			throw new NotFoundException("Product"); // No record with the associated record ID exists in the database.
+		}
+
+		this.apiProduct = queriedProductEntity.get()
+			.synchronize(this.apiProduct); // Synchronize any incoming changes for UPDATE to the database.
+
+		this.ProductRepository.save(queriedProductEntity.get()); // Write, via an UPDATE, any changes to the database.
+	}
+	//---------------------------------------------------------------------------------------------
 
 	// Properties
 	private UUID productId;

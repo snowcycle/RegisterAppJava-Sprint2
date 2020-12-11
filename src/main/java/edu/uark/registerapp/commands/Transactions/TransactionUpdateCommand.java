@@ -11,9 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 import edu.uark.registerapp.commands.ResultCommandInterface;
 import edu.uark.registerapp.commands.exceptions.NotFoundException;
 import edu.uark.registerapp.commands.exceptions.UnprocessableEntityException;
-import edu.uark.registerapp.models.api.transaction;
-import edu.uark.registerapp.models.entities.transactionEntity;
-import edu.uark.registerapp.models.repositories.transactionRepository;
+import edu.uark.registerapp.models.api.Transaction;  //Transaction capitalized by Jacob
+import edu.uark.registerapp.models.entities.TransactionEntity;
+import edu.uark.registerapp.models.repositories.TransactionRepository;
 
 @Service
 public class transactionUpdateCommand implements ResultCommandInterface<transaction> {
@@ -64,5 +64,5 @@ public class transactionUpdateCommand implements ResultCommandInterface<transact
 	}
 	
 	@Autowired
-	private transactionRepository transactionRepository;
+	private TransactionRepository transactionRepository;		//Transaction capitalized by Jacob
 }
