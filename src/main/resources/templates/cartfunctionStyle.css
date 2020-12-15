@@ -1,0 +1,33 @@
+td,th {
+	font-family: Verdana;
+	padding: 8px;
+	background-color: #ffffcc;
+}
+
+label {
+	vertical-align: top;
+}
+
+#main {
+	border: 1px dotted blue;
+	padding: 5px;
+	background-color: #ffffcc;
+	margin-right: 50%;
+}
+
+#items_table {
+	border: 1px dotted blue;
+	padding: 5px;
+	margin-top: 12px;
+	margin-right: 50%;
+}
+
+#items_table h3 {
+	font-size: 20px;
+	margin-top: 0px;
+	font-family: sans-serif;
+}
+
+body {
+    background-color: #ffffcc;
+}
