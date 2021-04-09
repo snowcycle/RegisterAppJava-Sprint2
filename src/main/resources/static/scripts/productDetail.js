@@ -1,13 +1,19 @@
+
+
 let hideProductSavedAlertTimer = undefined;
+let hideProductAddedAlertTimer = undefined;
 
 document.addEventListener("DOMContentLoaded", () => {
 	const productLookupCodeElement = getProductLookupCodeElement();
 
 	getProductCountElement().addEventListener("keypress", productCountKeypress);
+	getProductCostElement().addEventListener("keypress", productCostKeypress);
 	productLookupCodeElement.addEventListener("keypress", productLookupCodeKeypress);
 	
 	getSaveActionElement().addEventListener("click", saveActionClick);
 	getDeleteActionElement().addEventListener("click", deleteActionClick);
+
+	
 
 	if (!productLookupCodeElement.disabled) {
 		productLookupCodeElement.focus();
@@ -23,9 +29,21 @@ function productLookupCodeKeypress(event) {
 	const productCountElement = getProductCountElement();
 	productCountElement.focus();
 	productCountElement.select();
+
+	const productCostElement = getProductCostElement();
+	productCostElement.focus();
+	productCostElement.select();
 }
 
 function productCountKeypress(event) {
+	if (event.which !== 13) { // Enter key
+		return;
+	}
+
+	saveActionClick();
+}
+// Added a keypress for cost (Floyd Brown)
+function productCostKeypress(event) {
 	if (event.which !== 13) { // Enter key
 		return;
 	}
@@ -49,6 +67,7 @@ function saveActionClick(event) {
 	const saveProductRequest = {
 		id: productId,
 		count: getProductCount(),
+		cost: getProductCost(),
 		lookupCode: getProductLookupCode()
 	};
 
@@ -95,9 +114,20 @@ function validateSave() {
 		displayError("Product count may not be negative.");
 		return false;
 	}
+//---------------------------------------------------------------
+// I did for cost what was already done for count(Floyd)
+	const cost = getProductCost();
+	if ((cost == null) || isNaN(cost)) {
+		displayError("Please provide a valid product cost.");
+		return false;
+	} else if (cost < 0) {
+		displayError("Product cost may not be negative.");
+		return false;
+	}
 
 	return true;
 }
+//------------------------------------------------------------------
 
 function displayProductSavedAlertModal() {
 	if (hideProductSavedAlertTimer) {
@@ -118,9 +148,7 @@ function hideProductSavedAlertModal() {
 
 	getSavedAlertModalElement().style.display = "none";
 }
-// End save
 
-// Delete
 function deleteActionClick(event) {
 	const deleteActionElement = event.target;
 	const deleteActionUrl = ("/api/product/" + getProductId());
@@ -135,8 +163,46 @@ function deleteActionClick(event) {
 		}
 	});
 };
-// End delete
+//-------------------------------------------------------------------
+// new function that is based off of saved alert modal (Floyd)
+// I think that these can be used to build something better later on, maybe something like a function that is for when the cart 
+// gets clicked on, and this is part of what happens/ can go inside. I just can not think of a way to do more than this towards that though
+function displayProductAddedAlertModal() {
+		if (hideProductAddedAlertTimer) {
+			clearTimeout(hideProductAddedAlertTimer);
+		}
+	
+		const addedCartAlertModalElement = getAddedCartAlertModalElement();
+		addedCartAlertModalElement.style.display = "none";
+		addedCartAlertModalElement.style.display = "block";
+	
+		hideProductAddedAlertTimer = setTimeout(hideProductAddedCartAlertModal, 1200);
+	}
+// this function is based off of hide product saved alert modal	
+	function hideProductAddedCartAlertModal() {
+		if (hideProductAddedAlertTimer) {
+			clearTimeout(hideProductAddedAlertTimer);
+		}
+	// created this getter below 
+		getAddedCartAlertModalElement().style.display = "none";
+	}
 
+//-----------------------------------------------------------------
+function completeSaveAction(callbackResponse) {
+	if (callbackResponse.data == null) {
+		return;
+	}
+
+	if ((callbackResponse.data.redirectUrl != null)
+		&& (callbackResponse.data.redirectUrl !== "")) {
+
+		window.location.replace(callbackResponse.data.redirectUrl);
+		return;
+    }
+}
+
+
+//----------------------------------------------------------
 // Getters and setters
 function getSaveActionElement() {
 	return document.getElementById("saveButton");
@@ -149,6 +215,15 @@ function getSavedAlertModalElement() {
 function getDeleteActionElement() {
 	return document.getElementById("deleteButton");
 }
+
+
+//------------------------------------------------------------------------
+// (added by Floyd Brown)
+function getAddedCartAlertModalElement() {
+	return document.getElementById("productAddedCartAlertModal");
+}
+//---------------------------------------
+
 
 function getProductId() {
 	return getProductIdElement().value;
@@ -173,4 +248,15 @@ function getProductCount() {
 function getProductCountElement() {
 	return document.getElementById("productCount");
 }
-// End getters and setters
+//--------------------------------------------------------
+// Added a getter cost element (Floyd) based off of count element
+function getProductCost() {
+	return Number(getProductCostElement().value);
+}
+function getProductCostElement() {
+	return document.getElementById("productCost");
+}
+//----------------------------------------------------------------
+
+
+

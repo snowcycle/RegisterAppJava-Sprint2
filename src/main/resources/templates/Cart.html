@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+<title>Shopping Cart</title>
+<META charset="UTF-8">
+<META name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<META name="description" content="Basic Shopping Cart for debugging purposes">
+<META name="keywords" content="local storage, HTML5, CSS, JavaScript">
+<script src="cartfunctions.js"></script>
+<link rel="stylesheet" href="cartfunctionStyle.css">
+</head>
+
+
+<body onload="Update()">
+	<h2>Shopping Cart - Ctrl-Alt-Elite</h2>
+	<p>Insert items and quantity for your shopping cart. Based on sample template found online. </p>
+	<form name=ShoppingList>
+
+		<div id="main">
+			<table>
+				<tr>
+
+					<td><b>Item:</b><input type=text name=name></td>
+					<td><b>Quantity:</b><input type=text name=data></td>
+
+				</tr>
+
+				<tr>
+					<td>
+					    <input type=button value="Save"   onclick="Save()"> 
+					    <input type=button value="Update" onclick="Modify()"> 
+					    <input type=button value="Delete" onclick="Remove()">
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div id="items_table">
+			<h3>Current Items</h3>
+			<table id=list></table>
+			<p>
+				<label><input type=button value="Clear" onclick="ClearStorage()">
+					<i>* Deletes all items</i></label>
+			</p>
+		</div>
+	</form>
+    
+    <a href="Checkout.html"><button>Go To Checkout</button></a>
+
+</body>
+</html>

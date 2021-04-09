@@ -1,3 +1,5 @@
+
+
 package edu.uark.registerapp.models.api;
 
 import java.time.LocalDateTime;
@@ -28,6 +30,21 @@ public class Product extends ApiResponse {
 		this.lookupCode = lookupCode;
 		return this;
 	}
+//-----------------------------------------------------------------------
+// This is what Floyd Brown added 11/22/20
+// This is basically creating a get and set for the cost of what is being purchased
+// It is based off of the other getters and setters in the file
+	private float cost;
+
+	public float getCost() {
+		return this.cost;
+	}
+
+	public Product setCost(final float cost) {
+		this.cost = cost;
+		return this;
+	}
+//-----------------------------------------------------------------------
 
 	private int count;
 
@@ -39,6 +56,16 @@ public class Product extends ApiResponse {
 		this.count = count;
 		return this;
 	}
+
+//-----------------------------------------------------------------------
+// Jacob Dedman
+// Function to change product count by num
+	public Product changeCount(final int num) {
+		this.count = this.count + num;
+		return this;
+	}
+//-----------------------------------------------------------------------
+
 
 	private String createdOn;
 
@@ -60,7 +87,10 @@ public class Product extends ApiResponse {
 
 	public Product() {
 		super();
-
+//----------------------------------------		
+		this.cost = 0;
+// The line above is letting our cost equal 0		
+//------------------------------------------
 		this.count = -1;
 		this.id = new UUID(0, 0);
 		this.lookupCode = StringUtils.EMPTY;
@@ -74,6 +104,7 @@ public class Product extends ApiResponse {
 		this.id = productEntity.getId();
 		this.count = productEntity.getCount();
 		this.lookupCode = productEntity.getLookupCode();
+		this.cost = productEntity.getCost();
 
 		this.setCreatedOn(productEntity.getCreatedOn());
 	}
